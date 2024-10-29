@@ -1,0 +1,6 @@
+digraph {
+    App -> { darkSoulsStore bloodBorneStore eldenRingStore }
+    eldenRingStore -> { darkSoulsStore }
+    bloodBorneStore -> { eldenRingStore }
+    darkSoulsStore -> { bloodBorneStore eldenRingStore }
+}
