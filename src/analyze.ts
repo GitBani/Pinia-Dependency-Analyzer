@@ -2,26 +2,29 @@ import fs from 'node:fs';
 import * as g from './graph';
 import * as parse from './parsingUtils';
 
-export function analyzeProject(srcDirectoryPath: string): g.graphNode {
-    const sep = (process.platform === 'win32' ? '\\' : '/');
-    const appVuePath = srcDirectoryPath + sep + 'App.vue';
-    const root = g.create(appVuePath);
+const sep = (process.platform === 'win32' ? '\\' : '/');
 
-    const stack = [root];
-    // todo: make this not hardcoded, allowing users to select which directories to include
-    const viewsPath = srcDirectoryPath + sep + 'views'
-    if (fs.existsSync(viewsPath)) {
-        for (let path of getFiles(viewsPath)) {
-            if (process.platform === 'win32') {
-                path = path.replace(/\//g, '\\');
-            }
-            stack.push(g.create(path));
-        }
-    }
+export function analyzeProject(srcDirectoryPath: string): g.graphNode[] {
+    // const appVuePath = srcDirectoryPath + sep + 'App.vue';
+    // const root = g.create(appVuePath);
 
+    const stack = [];
     const visited = new Set();
     const existingNodes = new Map<string, g.graphNode>(); // maps path to node, used to determine if new node must be created
-    existingNodes.set(srcDirectoryPath, root);
+
+    // todo: make this not hardcoded, allowing users to select which directories to include
+    const storesPath = srcDirectoryPath + sep + 'stores'
+    if (fs.existsSync(storesPath) && fs.statSync(storesPath).isDirectory()) {
+        for (let path of getFiles(storesPath)) {
+            const node = g.create(path);
+            existingNodes.set(path, node);
+            stack.push(node);
+        }
+    }
+    else {
+        console.error(`${storesPath} must be an existing directory containing your Pinia stores.`);
+        process.exit(1);
+    }
 
     while (stack.length > 0) {
         const curr = stack.pop()!;
@@ -52,15 +55,15 @@ export function analyzeProject(srcDirectoryPath: string): g.graphNode {
             if (existingNodes.has(path)) {
                 dependencyNode = existingNodes.get(path)!;
             } else {
-                dependencyNode = g.create(path)
+                console.log(`The file ${path} used by ${curr.name} is not in your "stores" directory.`);
+                dependencyNode = g.create(path);
                 existingNodes.set(path, dependencyNode);
             }
             g.addEdge(curr, dependencyNode);
-            stack.push(dependencyNode);
         }
     }
 
-    return root;
+    return Array.from(existingNodes.values());
 }
 
 // * credit: https://www.learnwithparam.com/blog/get-all-files-in-a-folder-using-nodejs
@@ -70,7 +73,9 @@ function getFiles(dir: string, files: string[] = []) {
     const fileList = fs.readdirSync(dir)
     // Create the full path of the file/directory by concatenating the passed directory and file/directory name
     for (const file of fileList) {
-        const name = `${dir}/${file}`
+        if (file.startsWith('__') && file.endsWith('__')) continue;
+        const name = dir + sep + file
+
         // Check if the current file/directory is a directory using fs.statSync
         if (fs.statSync(name).isDirectory()) {
             // If it is a directory, recursively call the getFiles function with the directory path and the files array

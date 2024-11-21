@@ -1,0 +1,1 @@
+import { useEldenRingStore } from '@/stores/eldenRingStore.ts'
