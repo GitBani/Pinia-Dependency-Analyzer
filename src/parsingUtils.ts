@@ -28,8 +28,9 @@ export function getAllImportedStores(source: string): string[] {
                 
                 const name = importBuff.join('');
                 if (name.startsWith('use') && name.endsWith('Store')) {
-                    skipWhitespace(parser);
-                    match(parser, '}');
+                    while (skipWhitespace(parser), !match(parser, '}')) {
+                        parser.position++;
+                    }
                     break;
                 } else {
                     importBuff.length = 0;
