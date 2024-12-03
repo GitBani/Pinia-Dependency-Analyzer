@@ -5,14 +5,10 @@ import * as parse from './parsingUtils';
 const sep = (process.platform === 'win32' ? '\\' : '/');
 
 export function analyzeProject(srcDirectoryPath: string): g.graphNode[] {
-    // const appVuePath = srcDirectoryPath + sep + 'App.vue';
-    // const root = g.create(appVuePath);
-
     const stack = [];
     const visited = new Set();
-    const existingNodes = new Map<string, g.graphNode>(); // maps path to node, used to determine if new node must be created
+    const existingNodes = new Map<string, g.graphNode>(); // maps path to node
 
-    // todo: make this not hardcoded, allowing users to select which directories to include
     const storesPath = srcDirectoryPath + sep + 'stores'
     if (fs.existsSync(storesPath) && fs.statSync(storesPath).isDirectory()) {
         for (let path of getFiles(storesPath)) {
