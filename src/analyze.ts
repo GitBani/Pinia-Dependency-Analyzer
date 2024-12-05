@@ -1,6 +1,5 @@
 import fs from 'node:fs';
 import * as g from './graph';
-import * as parse from './parsingUtils';
 
 const sep = (process.platform === 'win32' ? '\\' : '/');
 
@@ -29,9 +28,8 @@ export function analyzeProject(srcDirectoryPath: string): g.graphNode[] {
         }
 
         visited.add(curr);
-        const dependencyPaths = parse.getAllImportedStores(curr.contents);
 
-        for (let path of dependencyPaths) {
+        for (let path of curr.importPaths) {
             if (path.startsWith('@')) {
                 path = path.replace('@', srcDirectoryPath);
             }

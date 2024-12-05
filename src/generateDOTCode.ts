@@ -1,4 +1,4 @@
-import { graphNode } from "./graph";
+import { graphNode } from './graph';
 import fs from 'node:fs';
 
 export function generateDOTCode(nodes: graphNode[]) {
