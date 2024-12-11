@@ -1,7 +1,7 @@
-import { graphNode } from './graph';
+import { GraphNode } from './graph';
 import fs from 'node:fs';
 
-export function generateDOTCode(nodes: graphNode[]) {
+export function generateDOTCode(nodes: GraphNode[]) {
     let output = 'digraph {\n'
     const visited = new Set();
 

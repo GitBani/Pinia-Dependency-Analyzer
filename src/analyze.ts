@@ -3,10 +3,10 @@ import * as g from './graph';
 
 const sep = (process.platform === 'win32' ? '\\' : '/');
 
-export function analyzeProject(srcDirectoryPath: string): g.graphNode[] {
+export function analyzeProject(srcDirectoryPath: string): g.GraphNode[] {
     const stack = [];
     const visited = new Set();
-    const existingNodes = new Map<string, g.graphNode>(); // maps path to node
+    const existingNodes = new Map<string, g.GraphNode>(); // maps path to node
 
     const storesPath = srcDirectoryPath + sep + 'stores'
     if (fs.existsSync(storesPath) && fs.statSync(storesPath).isDirectory()) {
