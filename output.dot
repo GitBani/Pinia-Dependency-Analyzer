@@ -1,6 +1,0 @@
-digraph {
-    liesOfPStore -> { }
-    eldenRingStore -> { }
-    darkSoulsStore -> { bloodBorneStore eldenRingStore }
-    bloodBorneStore -> { eldenRingStore }
-}
