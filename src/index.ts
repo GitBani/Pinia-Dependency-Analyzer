@@ -1,6 +1,6 @@
-import { Command } from 'commander'; 
+import { Command } from 'commander';
 import { analyzeProject } from './analyze';
-import { markAllCycles } from './cycleDetection.js';
+import { markAllCycles } from './cycleDetection';
 import { generateDOTCode } from './generateDOTCode';
 
 const program = new Command();
@@ -11,7 +11,8 @@ program
     .argument('<sourceDirectoryPath>', 'Path to the `src` directory of the project to analyze')
     .action((srcDirectoryPath: string) => {
         const graph = analyzeProject(srcDirectoryPath);
-        markAllCycles(graph);
+        graph.forEach(node => console.log(node.id))
+        // markAllCycles(graph);
         generateDOTCode(graph);
     });
 

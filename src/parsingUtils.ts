@@ -22,10 +22,10 @@ export function getAllImportedStores(source: string): string[] {
         if (match(parser, '{')) {
             // condition always skips whitespace before checking
             while (skipWhitespace(parser), !match(parser, '}')) {
-                while (!match(parser, ',') && !isWhitespace(parser.source[parser.position]) && !match(parser, '}')) {
+                while (!match(parser, ',') && !isWhitespace(parser.source[parser.position]) && !match(parser, '}', false)) {
                     importBuff.push(parser.source[parser.position++]);
                 }
-                
+
                 const name = importBuff.join('');
                 if (name.startsWith('use') && name.endsWith('Store')) {
                     while (skipWhitespace(parser), !match(parser, '}')) {
@@ -36,7 +36,7 @@ export function getAllImportedStores(source: string): string[] {
                     importBuff.length = 0;
                 }
             }
-            
+
             if (importBuff.length === 0) {
                 continue; // no store import found, skip
             }
@@ -100,14 +100,16 @@ function startsOrEndsWith(haystack: string, needle: string) {
     return haystack.startsWith(needle) || haystack.endsWith(needle);
 }
 
-function match(parser: Parser, toMatch: string): boolean {
+function match(parser: Parser, toMatch: string, consume: boolean = true): boolean {
     if (parser.position + toMatch.length > parser.source.length) return false;
 
     for (let i = 0; i < toMatch.length; i++) {
         if (parser.source[parser.position + i] !== toMatch[i]) return false;
     }
 
-    parser.position += toMatch.length;
+    if (consume) {
+        parser.position += toMatch.length;
+    }
     return true;
 }
 

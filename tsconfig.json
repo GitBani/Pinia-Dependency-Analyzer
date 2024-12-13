@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ES2020",        // Use a modern target
-    "module": "ESNext",        // Use ES modules
+    "target": "ES2020",
+    "module": "CommonJS",
     "moduleResolution": "node",
-    "outDir": "./dist",        // Output directory for compiled files
-    "esModuleInterop": true,  // For compatibility with CommonJS modules
-    "strict": true,           // Enable strict type checking
-    "allowJs": true,          // Allow JavaScript files if needed
-    "sourceMap": true         
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "strict": true,
+    "sourceMap": true,
   },
-  "include": ["src/**/*.ts"], 
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
