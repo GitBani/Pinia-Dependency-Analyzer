@@ -8,7 +8,7 @@ function byNumber(sccs: g.GraphNode[][]): Set<Set<number>> {
     for (const scc of sccs) {
         const numberSCC = new Set<number>;
         for (const node of scc) {
-            numberSCC.add(node.num!);
+            numberSCC.add(node.id!);
         }
         numberSCCs.add(numberSCC);
     }
@@ -18,49 +18,49 @@ function byNumber(sccs: g.GraphNode[][]): Set<Set<number>> {
 describe("Tarjan's Algorithm to find SCCs", () => {
     test("Standard case 1", () => {
         const n0: g.GraphNode = {
-            num: null,
+            id: 0,
             name: "N0",
             importPaths: [],
             dependencies: [],
         };
         const n1: g.GraphNode = {
-            num: null,
+            id: 1,
             name: "N1",
             importPaths: [],
             dependencies: [],
         };
         const n2: g.GraphNode = {
-            num: null,
+            id: 2,
             name: "N2",
             importPaths: [],
             dependencies: [],
         };
         const n3: g.GraphNode = {
-            num: null,
+            id: 3,
             name: "N3",
             importPaths: [],
             dependencies: [],
         };
         const n4: g.GraphNode = {
-            num: null,
+            id: 4,
             name: "N4",
             importPaths: [],
             dependencies: [],
         };
         const n5: g.GraphNode = {
-            num: null,
+            id: 5,
             name: "N5",
             importPaths: [],
             dependencies: [],
         };
         const n6: g.GraphNode = {
-            num: null,
+            id: 6,
             name: "N6",
             importPaths: [],
             dependencies: [],
         };
         const n7: g.GraphNode = {
-            num: null,
+            id: 7,
             name: "N7",
             importPaths: [],
             dependencies: [],
@@ -89,19 +89,19 @@ describe("Tarjan's Algorithm to find SCCs", () => {
 
     test("Standard case 2", () => {
         const n0: g.GraphNode = {
-            num: null,
+            id: 0,
             name: "N0",
             importPaths: [],
             dependencies: [],
         };
         const n1: g.GraphNode = {
-            num: null,
+            id: 1,
             name: "N1",
             importPaths: [],
             dependencies: [],
         };
         const n2: g.GraphNode = {
-            num: null,
+            id: 2,
             name: "N2",
             importPaths: [],
             dependencies: [],
@@ -123,37 +123,37 @@ describe("Tarjan's Algorithm to find SCCs", () => {
 
     test("Standard case 3", () => {
         const n0: g.GraphNode = {
-            num: null,
+            id: 0,
             name: "N0",
             importPaths: [],
             dependencies: [],
         };
         const n1: g.GraphNode = {
-            num: null,
+            id: 1,
             name: "N1",
             importPaths: [],
             dependencies: [],
         };
         const n2: g.GraphNode = {
-            num: null,
+            id: 2,
             name: "N2",
             importPaths: [],
             dependencies: [],
         };
         const n3: g.GraphNode = {
-            num: null,
+            id: 3,
             name: "N3",
             importPaths: [],
             dependencies: [],
         };
         const n4: g.GraphNode = {
-            num: null,
+            id: 4,
             name: "N4",
             importPaths: [],
             dependencies: [],
         };
         const n5: g.GraphNode = {
-            num: null,
+            id: 5,
             name: "N5",
             importPaths: [],
             dependencies: [],
@@ -179,37 +179,37 @@ describe("Tarjan's Algorithm to find SCCs", () => {
 
     test("Tree", () => {
         const n0: g.GraphNode = {
-            num: null,
+            id: 0,
             name: "N0",
             importPaths: [],
             dependencies: [],
         };
         const n1: g.GraphNode = {
-            num: null,
+            id: 1,
             name: "N1",
             importPaths: [],
             dependencies: [],
         };
         const n2: g.GraphNode = {
-            num: null,
+            id: 2,
             name: "N2",
             importPaths: [],
             dependencies: [],
         };
         const n3: g.GraphNode = {
-            num: null,
+            id: 3,
             name: "N3",
             importPaths: [],
             dependencies: [],
         };
         const n4: g.GraphNode = {
-            num: null,
+            id: 4,
             name: "N4",
             importPaths: [],
             dependencies: [],
         };
         const n5: g.GraphNode = {
-            num: null,
+            id: 5,
             name: "N5",
             importPaths: [],
             dependencies: [],
@@ -235,31 +235,31 @@ describe("Tarjan's Algorithm to find SCCs", () => {
 
     test("Complete graph (K_5)", () => {
         const n0: g.GraphNode = {
-            num: null,
+            id: 0,
             name: "N0",
             importPaths: [],
             dependencies: [],
         };
         const n1: g.GraphNode = {
-            num: null,
+            id: 1,
             name: "N1",
             importPaths: [],
             dependencies: [],
         };
         const n2: g.GraphNode = {
-            num: null,
+            id: 2,
             name: "N2",
             importPaths: [],
             dependencies: [],
         };
         const n3: g.GraphNode = {
-            num: null,
+            id: 3,
             name: "N3",
             importPaths: [],
             dependencies: [],
         };
         const n4: g.GraphNode = {
-            num: null,
+            id: 4,
             name: "N4",
             importPaths: [],
             dependencies: [],
