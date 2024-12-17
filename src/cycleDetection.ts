@@ -1,24 +1,150 @@
 import * as g from './graph';
 
 // Johnson's Algorithm
-export function markAllCycles(graph: g.GraphNode[]) {
+export function markAllCycles(graph: g.GraphNode[]): g.GraphNode[][] {
     const cycles: g.GraphNode[][] = [];
     const blockedMap = new Map<number, Set<number>>();
     const blockedSet = new Set<number>();
     const stack: g.GraphNode[] = [];
-    let counter = 0;
+    let startIndex = 0;
+
+    while (startIndex < graph.length) {
+        const subgraph = createSubgraphInducedBy(graph.filter(node => node.id >= startIndex));
+        const sccs = getAllSCC(subgraph);
+        const leastIndexSCC = sccWithLeastIndexNode(sccs);
+
+        if (leastIndexSCC === null) {
+            break;
+        }
+
+        // Eagerly initialize blockedMap
+        for (const node of leastIndexSCC) {
+            blockedMap.set(node.id, new Set());
+        }
+
+        const leastIndexNode = createSubgraphInducedBy(leastIndexSCC).reduce((prev, curr) => prev.id < curr.id ? prev : curr);
+        findCycles(leastIndexNode.id, leastIndexNode);
+        startIndex = leastIndexNode.id + 1;
+    }
+
+    return cycles;
+
+    function findCycles(startNodeID: number, currentNode: g.GraphNode): boolean {
+        let foundCycle = false;
+        stack.push(currentNode);
+        blockedSet.add(currentNode.id);
+
+        for (const neighbor of currentNode.dependencies) {
+            if (neighbor.id === startNodeID) {
+                // stack contains the found cycle
+                cycles.push([...stack]);
+                foundCycle = true;
+            }
+            else if (!blockedSet.has(neighbor.id)) {
+                if (findCycles(startNodeID, neighbor)) {
+                    foundCycle = true;
+                }
+            }
+        }
+
+        if (foundCycle) {
+            unblock(currentNode.id);
+        }
+        else {
+            for (const neighbor of currentNode.dependencies) {
+                // sets of every node is eagerly initialized, can assume it exists
+                blockedMap.get(neighbor.id)!.add(currentNode.id);
+            }
+        }
+
+        stack.pop();
+        return foundCycle;
+    }
 
     function unblock(nodeID: number) {
         blockedSet.delete(nodeID);
-        const blockedNeighborIDs = blockedMap.get(nodeID)!;
+        const blockedNeighborIDs = blockedMap.get(nodeID)!; // blockedMap is eagerly populated
 
-        for (const blockedNeighborID of blockedNeighborIDs) {
+        for (const blockedNeighborID of [...blockedNeighborIDs]) {
             blockedNeighborIDs.delete(blockedNeighborID);
 
             if (blockedSet.has(blockedNeighborID)) {
                 unblock(blockedNeighborID);
             }
         }
+    }
+}
+
+// Auxiliary functions for Johnson's algorithm
+function createSubgraphInducedBy(nodes: g.GraphNode[]) {
+    const nodeIDsSet = new Set();
+    nodes.forEach(node => nodeIDsSet.add(node.id));
+
+    const newNodes = new Map<number, g.GraphNode>();
+    const subgraph: g.GraphNode[] = [];
+
+    for (const node of nodes) {
+        let newNode: g.GraphNode;
+        if (newNodes.has(node.id)) {
+            newNode = newNodes.get(node.id)!;
+        }
+        else {
+            newNode = {
+                id: node.id,
+                name: node.name,
+                importPaths: node.importPaths,
+                dependencies: [],
+            }
+            newNodes.set(node.id, newNode);
+        }
+
+        for (const dep of node.dependencies.filter(dep => nodeIDsSet.has(dep.id))) {
+            let newDep: g.GraphNode;
+            if (newNodes.has(dep.id)) {
+                newDep = newNodes.get(dep.id)!;
+            }
+            else {
+                newDep = {
+                    id: dep.id,
+                    name: dep.name,
+                    importPaths: dep.importPaths,
+                    dependencies: [],
+                }
+                newNodes.set(dep.id, newDep);
+            }
+
+            newNode.dependencies.push(newDep);
+        }
+
+        subgraph.push(newNode);
+    }
+
+    return subgraph;
+}
+
+function sccWithLeastIndexNode(sccs: g.GraphNode[][]): g.GraphNode[] | null {
+    let leastIndex = Infinity;
+    let leastIndexNodeSCC: g.GraphNode[] = [];
+
+    for (const scc of sccs) {
+        if (scc.length < 2) {
+            // Cannot contain cycle
+            continue;
+        }
+
+        for (const node of scc) {
+            if (node.id < leastIndex) {
+                leastIndex = node.id;
+                leastIndexNodeSCC = scc;
+            }
+        }
+    }
+
+    if (leastIndex === Infinity) {
+        return null;
+    }
+    else {
+        return leastIndexNodeSCC;
     }
 }
 
