@@ -77,7 +77,7 @@ export function markAllCycles(graph: g.GraphNode[]): g.GraphNode[][] {
 
 // Auxiliary functions for Johnson's algorithm
 function createSubgraphInducedBy(nodes: g.GraphNode[]) {
-    const nodeIDsSet = new Set();
+    const nodeIDsSet = new Set<number>();
     nodes.forEach(node => nodeIDsSet.add(node.id));
 
     const newNodes = new Map<number, g.GraphNode>();
