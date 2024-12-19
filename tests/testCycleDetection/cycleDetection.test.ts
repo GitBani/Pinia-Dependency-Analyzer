@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import * as g from '../../src/graph';
-import { getAllSCC, markAllCycles } from "../../src/cycleDetection";
+import { getAllSCC, findAllCycles } from "../../src/cycleDetection";
 
 // Helper function for identifying SCCs by node numbers
 function byNumber(sccs: g.GraphNode[][]): Set<Set<number>> {
@@ -439,7 +439,7 @@ describe("Johnson's algorithm to find all cycles in a directed graph", () => {
         ]);
 
         // Assert
-        expect(byNumber(markAllCycles(graph))).toEqual(expected);
+        expect(byNumber(findAllCycles(graph))).toEqual(expected);
 
     });
 })

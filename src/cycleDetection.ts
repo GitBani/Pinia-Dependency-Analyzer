@@ -1,7 +1,7 @@
 import * as g from './graph';
 
 // Johnson's Algorithm
-export function markAllCycles(graph: g.GraphNode[]): g.GraphNode[][] {
+export function findAllCycles(graph: g.GraphNode[]): g.GraphNode[][] {
     const cycles: g.GraphNode[][] = [];
     const blockedMap = new Map<number, Set<number>>();
     const blockedSet = new Set<number>();
