@@ -1,1 +1,1 @@
-import { useEldenRingStore } from '@/eldenRingStore.ts'
+import { useEldenRingStore } from '@/stores/eldenRingStore.ts'

@@ -1,2 +1,2 @@
-import useBloodBorneStore from '@/bloodBorneStore.ts'
-import { useEldenRingStore } from '@/eldenRingStore.ts'
+import useBloodBorneStore from '@/stores/bloodBorneStore.ts'
+import { useEldenRingStore } from '@/stores/eldenRingStore.ts'

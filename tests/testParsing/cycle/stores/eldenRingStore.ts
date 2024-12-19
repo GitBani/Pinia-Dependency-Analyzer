@@ -1,4 +1,4 @@
-import {x,y,z, useDarkSoulsStore} from '@/darkSoulsStore.ts'
+import { x, y, z, useDarkSoulsStore } from '@/stores/darkSoulsStore.ts'
 
 /*
  * good code...
