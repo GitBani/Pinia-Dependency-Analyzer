@@ -22,7 +22,7 @@ npm run gen
 ```
 
 I have a demo directory, and running the program on it resulted in:
-![demo-dependency-graph](demo/dependency-graph.svg)
+![demo-dependency-graph](demo/demo-dependency-graph.svg)
 
 ## Reflection and Future Plans
 I love graph theory, so I enjoyed learning about Tarjan's algorithm and Johnson's algorithm, and implementing them in order to find all cycles in the dependency graph. This was also the first time I read the actual papers to learn something, and not limiting myself to online tutorials.
